@@ -1,3 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'application'
 mainClassName = "ru.stqa.pft.sandbox.task2.Point"
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
