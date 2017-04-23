@@ -4,3 +4,11 @@ mainClassName = "ru.stqa.pft.sandbox.task2.Point"
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.testng:testng:6.11'
+}
