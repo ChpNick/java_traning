@@ -1,0 +1,14 @@
+apply plugin: 'java'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.testng:testng:6.11'
+    compile 'org.seleniumhq.selenium:selenium-java:2.53.1'
+}
