@@ -9,9 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.*;
 
-public class GroupCreationTests {
-    FirefoxDriver wd;
-    
+public class GroupCreationTests extends Common {
     @BeforeMethod
     public void setUp() throws Exception {
         wd = new FirefoxDriver();
@@ -19,16 +17,6 @@ public class GroupCreationTests {
 
         wd.get("http://localhost/addressbook/");
         login("admin", "secret");
-    }
-
-    private void login(String username, String password) {
-        wd.findElement(By.name("user")).click();
-        wd.findElement(By.name("user")).clear();
-        wd.findElement(By.name("user")).sendKeys(username);
-        wd.findElement(By.name("pass")).click();
-        wd.findElement(By.name("pass")).clear();
-        wd.findElement(By.name("pass")).sendKeys(password);
-        wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
     }
 
     @Test
