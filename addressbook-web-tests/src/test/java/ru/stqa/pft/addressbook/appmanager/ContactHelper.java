@@ -69,6 +69,6 @@ public class ContactHelper extends HelperBase{
     }
 
     public void submitContactModification() {
-        click(By.name("update"));
+        click(By.xpath(".//*[@id='content']/form[1]/input[22]"));
     }
 }
