@@ -7,17 +7,17 @@ import ru.stqa.pft.addressbook.model.AddressData;
 /**
  * Created by Nikolay Pechenin on 10.05.2017.
  */
-public class NewAddressHelper extends HelperBase{
+public class NewContactHelper extends HelperBase{
 
-    public NewAddressHelper(FirefoxDriver wd) {
+    public NewContactHelper(FirefoxDriver wd) {
         super(wd);
     }
 
-    public void submitNewAddressCreation() {
+    public void submitNewContactCreation() {
         click(By.xpath("//div[@id='content']/form/input[21]"));
     }
 
-    public void fillAddressForm(AddressData addressData) {
+    public void fillContactForm(AddressData addressData) {
         type(By.name("firstname"), addressData.getFirstname());
         type(By.name("middlename"), addressData.getMiddlename());
         type(By.name("lastname"), addressData.getLastname());
