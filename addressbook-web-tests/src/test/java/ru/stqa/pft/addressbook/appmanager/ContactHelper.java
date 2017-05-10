@@ -7,9 +7,9 @@ import ru.stqa.pft.addressbook.model.AddressData;
 /**
  * Created by Nikolay Pechenin on 10.05.2017.
  */
-public class NewContactHelper extends HelperBase{
+public class ContactHelper extends HelperBase{
 
-    public NewContactHelper(FirefoxDriver wd) {
+    public ContactHelper(FirefoxDriver wd) {
         super(wd);
     }
 
@@ -49,4 +49,26 @@ public class NewContactHelper extends HelperBase{
         type(By.name("notes"), addressData.getNotes());
     }
 
+    public void selectContact() {
+        click(By.name("selected[]"));
+//        select(By.name("selected[]"));
+
+    }
+
+    public void deleteSelectedContact() {
+        click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+        acceptAlert();
+    }
+
+    public void initContactModification() {
+        click(By.xpath("//img[@title = 'Edit']"));
+    }
+
+    public void deleteContactFromEdit() {
+        click(By.xpath(".//*[@id='content']/form[2]/input[2]"));
+    }
+
+    public void submitContactModification() {
+        click(By.name("update"));
+    }
 }
