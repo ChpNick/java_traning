@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
  * Created by Nikolay Pechenin on 10.05.2017.
@@ -50,7 +49,7 @@ public class HelperBase {
         wd.switchTo().alert().accept();
     }
 
-    protected boolean isElemebtPresent(By locator) {
+    protected boolean isElementPresent(By locator) {
         try {
             wd.findElement(locator);
             return true;
