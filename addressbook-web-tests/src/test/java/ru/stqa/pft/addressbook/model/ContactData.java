@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.model;
 
 public class ContactData {
+    private final String id;
     private final String firstname;
     private final String middlename;
     private final String lastname;
@@ -27,34 +28,37 @@ public class ContactData {
     private final String phone2;
     private final String notes;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ContactData that = (ContactData) o;
-
-        if (firstname != null ? ! firstname.equals(that.firstname) : that.firstname != null) return false;
-        return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = firstname != null ? firstname.hashCode() : 0;
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                '}';
-    }
-
     public ContactData(String firstname, String middlename, String lastname, String nickname, String title, String company, String address, String home, String mobile, String work, String fax, String email, String email2, String email3, String homepage, int bday, int bmons, String byear, int aday, int amons, String ayear, String group , String address2, String phone2, String notes) {
+        this.id = null;
+        this.firstname = firstname;
+        this.middlename = middlename;
+        this.lastname = lastname;
+        this.nickname = nickname;
+        this.title = title;
+        this.company = company;
+        this.address = address;
+        this.home = home;
+        this.mobile = mobile;
+        this.work = work;
+        this.fax = fax;
+        this.email = email;
+        this.email2 = email2;
+        this.email3 = email3;
+        this.homepage = homepage;
+        this.bday = bday;
+        this.bmons = bmons;
+        this.byear = byear;
+        this.aday = aday;
+        this.amons = amons;
+        this.ayear = ayear;
+        this.group = group;
+        this.address2 = address2;
+        this.phone2 = phone2;
+        this.notes = notes;
+    }
+
+    public ContactData(String id ,String firstname, String middlename, String lastname, String nickname, String title, String company, String address, String home, String mobile, String work, String fax, String email, String email2, String email3, String homepage, int bday, int bmons, String byear, int aday, int amons, String ayear, String group , String address2, String phone2, String notes) {
+        this.id = id;
         this.firstname = firstname;
         this.middlename = middlename;
         this.lastname = lastname;
@@ -181,4 +185,39 @@ public class ContactData {
     public String getGroup() {
         return group;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ContactData that = (ContactData) o;
+
+        if (id != null ? ! id.equals(that.id) : that.id != null) return false;
+        if (firstname != null ? ! firstname.equals(that.firstname) : that.firstname != null) return false;
+        return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id='" + id + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
+    }
+
 }
