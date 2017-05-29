@@ -14,32 +14,29 @@ import java.util.List;
 public class ContactModificationTests extends TestBase {
     @Test
     public void testContactModification() {
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().HomePage();
 
-        if (! app.getContactHelper().isThereAContact()) {
-            app.getContactHelper().createContact(new ContactData("test", "testovich", "testov", "Chp", "i like coding", "social quantum",
+        if (app.contact().list().size() == 0) {
+            app.contact().create(new ContactData("test", "testovich", "testov", "Chp", "i like coding", "social quantum",
                     "Ivanovo", "888888", "89234567890", "12345678900", "-", "chpnick@mail.ru", "chpnick1@gmail.ru",
-                    "-", "-", 1, 2, "1983", 1, 2, "1990", "test1" ,"-", "-", "-"));
+                    "-", "-", 1, 2, "1983", 1, 2, "1990", "test1", "-", "-", "-"));
         }
 
-        List<ContactData> before = app.getContactHelper().getContactList();
+        List<ContactData> before = app.contact().list();
+        int index = before.size() - 1;
 
-        app.getContactHelper().initContactModification(before.size() - 1);
-
-        ContactData contact = new ContactData(before.get(before.size() - 1).getId(), "test_edit", "testovich_edit", "testov_edit", "Chp_edit", "i like coding", "social quantum",
+        ContactData contact = new ContactData(before.get(index).getId(), "test_edit", "testovich_edit", "testov_edit", "Chp_edit", "i like coding", "social quantum",
                 "Ivanovo", "888888", "89234567890", "12345678900", "-", "chpnick@mail.ru", "chpnick1@gmail.ru",
                 "-", "-", 10, 10, "1983", 10, 10, "1990", null, "-", "-", "-");
 
-        app.getContactHelper().fillContactForm(contact, false);
-        app.getContactHelper().submitContactModification();
-        app.getNavigationHelper().gotoHomePage();
+        app.contact().modify(index, contact);
 
-        List<ContactData> after = app.getContactHelper().getContactList();
+        List<ContactData> after = app.contact().list();
         Assert.assertEquals(after.size(), before.size());
 
 
 //        Проверяем через множества
-        before.remove(before.size() - 1);
+        before.remove(index);
         before.add(contact);
 
         Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
@@ -50,7 +47,5 @@ public class ContactModificationTests extends TestBase {
         after.sort(byId);
 
         Assert.assertEquals(before, after);
-
-
     }
 }

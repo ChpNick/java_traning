@@ -12,19 +12,19 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void testContactCreation() {
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().HomePage();
 
-        List<ContactData> before = app.getContactHelper().getContactList();
+        List<ContactData> before = app.contact().list();
 
-        app.getNavigationHelper().gotoAddNewContactPage();
+        app.goTo().gotoAddNewContactPage();
 
         ContactData contact = new ContactData("test1", "testovich", "testov", "Chp", "i like coding", "social quantum",
                 "Ivanovo", "888888", "89234567890", "12345678900", "-", "chpnick@mail.ru", "chpnick1@gmail.ru",
                 "-", "-", 1, 2, "1983", 1, 2, "1990", "test1" ,"-", "-", "-");
 
-        app.getContactHelper().createContact(contact);
+        app.contact().create(contact);
 
-        List<ContactData> after = app.getContactHelper().getContactList();
+        List<ContactData> after = app.contact().list();
         Assert.assertEquals(after.size(), before.size() + 1);
 
 //        Проверяем через множества

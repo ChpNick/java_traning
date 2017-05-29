@@ -1,6 +1,5 @@
 package ru.stqa.pft.addressbook.appmanager;
 
-import org.apache.xalan.xsltc.dom.SimpleResultTreeImpl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -90,12 +89,35 @@ public class ContactHelper extends HelperBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public void createContact(ContactData contact) {
+    public void create(ContactData contact) {
         navigationHelper.gotoAddNewContactPage();
         fillContactForm(contact, true);
         submitNewContactCreation();
-        navigationHelper.gotoHomePage();
+        returnToHomePage();
 
+    }
+
+    public void modify(int index, ContactData contact) {
+        initContactModification(index);
+        fillContactForm(contact, false);
+        submitContactModification();
+        returnToHomePage();
+    }
+
+    public void delete(int index) {
+        selectContact(index);
+        deleteSelectedContact();
+        returnToHomePage();
+    }
+
+    public void deleteFromEdit(int index) {
+        initContactModification(index);
+        deleteContactFromEdit();
+        returnToHomePage();
+    }
+
+    public void returnToHomePage() {
+        navigationHelper.HomePage();
     }
 
     public NavigationHelper getNavigationHelper() {
@@ -106,11 +128,11 @@ public class ContactHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public List<ContactData> getContactList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.xpath(".//*[@name='entry']"));
 
-        for (WebElement element: elements){
+        for (WebElement element : elements) {
             List<WebElement> elementDatas = element.findElements(By.tagName("td"));
 
             int id = Integer.parseInt(elementDatas.get(0).findElement(By.tagName("input")).getAttribute("id"));
