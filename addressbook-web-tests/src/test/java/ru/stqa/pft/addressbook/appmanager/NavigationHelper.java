@@ -28,7 +28,7 @@ public class NavigationHelper extends HelperBase {
         click(By.linkText("home"));
     }
 
-    public void gotoAddNewContactPage() {
+    public void AddNewContactPage() {
         if (isElementPresent(By.xpath(".//*[@id='content']/h1"))
                 && wd.findElement(By.xpath(".//*[@id='content']/h1")).getText().equals("Edit / add address book entry")
                 && isElementPresent(By.name("submit"))) {

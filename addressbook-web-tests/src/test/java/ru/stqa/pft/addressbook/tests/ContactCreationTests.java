@@ -16,7 +16,7 @@ public class ContactCreationTests extends TestBase {
 
         List<ContactData> before = app.contact().list();
 
-        app.goTo().gotoAddNewContactPage();
+        app.goTo().AddNewContactPage();
 
         ContactData contact = new ContactData("test1", "testovich", "testov", "Chp", "i like coding", "social quantum",
                 "Ivanovo", "888888", "89234567890", "12345678900", "-", "chpnick@mail.ru", "chpnick1@gmail.ru",

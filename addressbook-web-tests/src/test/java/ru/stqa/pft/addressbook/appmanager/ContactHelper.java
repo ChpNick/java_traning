@@ -90,7 +90,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void create(ContactData contact) {
-        navigationHelper.gotoAddNewContactPage();
+        navigationHelper.AddNewContactPage();
         fillContactForm(contact, true);
         submitNewContactCreation();
         returnToHomePage();
