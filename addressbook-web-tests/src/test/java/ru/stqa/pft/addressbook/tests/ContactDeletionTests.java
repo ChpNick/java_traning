@@ -15,10 +15,13 @@ public class ContactDeletionTests extends TestBase {
     public void ensurePreconditions() {
         app.goTo().HomePage();
 
-        if (! app.contact().isThereAContact()) {
-            app.contact().create(new ContactData("test", "testovich", "testov", "Chp", "i like coding", "social quantum",
-                    "Ivanovo", "888888", "89234567890", "12345678900", "-", "chpnick@mail.ru", "chpnick1@gmail.ru",
-                    "-", "-", 1, 2, "1983", 1, 2, "1990", "test1", "-", "-", "-"));
+        if (app.contact().list().size() == 0) {
+            app.contact().create(new ContactData().withFirstname("test1").withMiddlename("testovich").withLastname("testov")
+                    .withNickname("Chp").withTitle("i like coding").withCompany("social quantum").withAddress("Ivanovo")
+                    .withHome("888888").withMobile("89234567890").withWork("12345678900").withFax("-").withEmail("chpnick@mail.ru")
+                    .withEmail2("chpnick1@gmail.ru").withEmail3("-").withHomepage("-").withBday(1).withBmons(2)
+                    .withByear("1983").withAday(1).withAmons(2).withAyear("1990").withGroup("test1").withAddress2("-")
+                    .withPhone2("-").withNotes("_"));
         }
     }
 

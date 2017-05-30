@@ -18,9 +18,12 @@ public class ContactCreationTests extends TestBase {
 
         app.goTo().AddNewContactPage();
 
-        ContactData contact = new ContactData("test1", "testovich", "testov", "Chp", "i like coding", "social quantum",
-                "Ivanovo", "888888", "89234567890", "12345678900", "-", "chpnick@mail.ru", "chpnick1@gmail.ru",
-                "-", "-", 1, 2, "1983", 1, 2, "1990", "test1" ,"-", "-", "-");
+        ContactData contact = new ContactData().withFirstname("test1").withMiddlename("testovich").withLastname("testov")
+                .withNickname("Chp").withTitle("i like coding").withCompany("social quantum").withAddress("Ivanovo")
+                .withHome("888888").withMobile("89234567890").withWork("12345678900").withFax("-").withEmail("chpnick@mail.ru")
+                .withEmail2("chpnick1@gmail.ru").withEmail3("-").withHomepage("-").withBday(1).withBmons(2)
+                .withByear("1983").withAday(1).withAmons(2).withAyear("1990").withGroup("test1").withAddress2("-")
+                .withPhone2("-").withNotes("_");
 
         app.contact().create(contact);
 
@@ -30,7 +33,7 @@ public class ContactCreationTests extends TestBase {
 //        Проверяем через множества
         Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
 
-        contact.setId(after.stream().max(byId).get().getId());
+        contact.withId(after.stream().max(byId).get().getId());
         before.add(contact);
 
         Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
