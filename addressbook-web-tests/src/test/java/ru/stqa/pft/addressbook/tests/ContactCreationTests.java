@@ -4,9 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 public class ContactCreationTests extends TestBase {
 
@@ -14,7 +12,7 @@ public class ContactCreationTests extends TestBase {
     public void testContactCreation() {
         app.goTo().HomePage();
 
-        List<ContactData> before = app.contact().list();
+        Set<ContactData> before = app.contact().all();
 
         app.goTo().AddNewContactPage();
 
@@ -27,20 +25,12 @@ public class ContactCreationTests extends TestBase {
 
         app.contact().create(contact);
 
-        List<ContactData> after = app.contact().list();
+        Set<ContactData> after = app.contact().all();
         Assert.assertEquals(after.size(), before.size() + 1);
 
 //        Проверяем через множества
-        Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-
-        contact.withId(after.stream().max(byId).get().getId());
+        contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt());
         before.add(contact);
-
-        Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
-
-//        Проверяем по отсортированным спискам
-        before.sort(byId);
-        after.sort(byId);
 
         Assert.assertEquals(before, after);
     }
