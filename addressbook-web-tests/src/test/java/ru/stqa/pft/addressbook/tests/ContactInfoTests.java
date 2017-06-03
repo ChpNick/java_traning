@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -55,6 +56,37 @@ public class ContactInfoTests extends TestBase {
 
         assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()
                 .replaceAll("[\\s]{2,}", " ").trim()));
+    }
+
+    @Test
+    public void testContactDetails() {
+        app.goTo().HomePage();
+        Contacts before = app.contact().all();
+        ContactData newContact = new ContactData().withFirstname("CrazyChp").withLastname("testov")
+                .withAddress("  Ivanovo   city \n big  ").withHomePhone("11111").withMobilePhone("22222")
+                .withWorkPhone("33333").withEmail("chpnick@mail.ru")
+                .withEmail3("chpnick1@gmail.ru").withGroup("test1");
+
+        app.contact().create(newContact);
+
+        Contacts after = app.contact().all();
+        after.removeAll(before);
+        ContactData contact = after.iterator().next();
+
+        ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+        String contactInfoFromEdit = mergeInfoFromEditForDetails(contactInfoFromEditForm);
+
+        String contactInfoFromDetails = app.contact().infoFromDetailsForm(contact);
+
+        assertThat(contactInfoFromEdit, equalTo(contactInfoFromDetails));
+    }
+
+    public String mergeInfoFromEditForDetails(ContactData contact) {
+        String contactInfo = String.format("%s %s %s H: %s M: %s W: %s %s %s %s", contact.getFirstname(),
+                contact.getLastname(), contact.getAddress(), contact.getHomePhone(), contact.getMobilePhone(),
+                contact.getWorkPhone(), contact.getEmail(), contact.getEmail2(), contact.getEmail3());
+
+        return contactInfo.replaceAll("\n", " ").replaceAll("[\\s]{2,}", " ").trim();
     }
 
     private String mergeEmails(ContactData contact) {

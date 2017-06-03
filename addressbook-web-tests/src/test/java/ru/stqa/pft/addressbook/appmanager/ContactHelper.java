@@ -43,13 +43,23 @@ public class ContactHelper extends HelperBase {
         type(By.name("email3"), contactData.getEmail3());
         type(By.name("homepage"), contactData.getHomepage());
 
-        select(By.xpath("//div[@id='content']/form/select[1]//option[" + (contactData.getBday() + 2) + "]"));
-        select(By.xpath("//div[@id='content']/form/select[2]//option[" + (contactData.getBmons() + 2) + "]"));
+        if (contactData.getBday() != 0) {
+            select(By.xpath("//div[@id='content']/form/select[1]//option[" + (contactData.getBday() + 2) + "]"));
+        }
+
+        if (contactData.getBmons() != 0) {
+            select(By.xpath("//div[@id='content']/form/select[2]//option[" + (contactData.getBmons() + 2) + "]"));
+        }
 
         type(By.name("byear"), contactData.getByear());
 
-        select(By.xpath("//div[@id='content']/form/select[3]//option[" + (contactData.getAday() + 2) + "]"));
-        select(By.xpath("//div[@id='content']/form/select[4]//option[" + (contactData.getAmons() + 2) + "]"));
+        if (contactData.getAday() != 0) {
+            select(By.xpath("//div[@id='content']/form/select[3]//option[" + (contactData.getAday() + 2) + "]"));
+        }
+
+        if (contactData.getAmons() != 0) {
+            select(By.xpath("//div[@id='content']/form/select[4]//option[" + (contactData.getAmons() + 2) + "]"));
+        }
 
         type(By.name("ayear"), contactData.getAyear());
 
@@ -70,7 +80,10 @@ public class ContactHelper extends HelperBase {
 
     public void initContactModificationById(int id) {
         wd.findElement(By.cssSelector(String.format("a[href = 'edit.php?id=%s']", id))).click();
-//        wd.findElement(By.cssSelector("a[href = 'edit.php?id=" + id + "']")).click();
+    }
+
+    public void initContactDetailsById(int id) {
+        wd.findElement(By.cssSelector(String.format("a[href = 'view.php?id=%s']", id))).click();
     }
 
     public void deleteSelectedContact() {
@@ -152,7 +165,7 @@ public class ContactHelper extends HelperBase {
             String address = elementDatas.get(3).getText();
 
             contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
-            .withAllPhones(allPhones).withAddress(address).withAllEmails(allEmails));
+                    .withAllPhones(allPhones).withAddress(address).withAllEmails(allEmails));
         }
         return new Contacts(contactCache);
     }
@@ -174,5 +187,15 @@ public class ContactHelper extends HelperBase {
         return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withHomePhone(home)
                 .withMobilePhone(mobile).withWorkPhone(work).withAddress(address).withEmail(email).withEmail2(email2)
                 .withEmail3(email3);
+    }
+
+    public String infoFromDetailsForm(ContactData contact) {
+        initContactDetailsById(contact.getId());
+        String allInfo = wd.findElement(By.id("content")).getText();
+        String replacedAllInfo = allInfo.replace("Member of: test1", "").replaceAll("\n", " ")
+                .replaceAll("[\\s]{2,}", " ").trim();
+//        System.out.println(replacedAllInfo);
+        wd.navigate().back();
+        return replacedAllInfo;
     }
 }
