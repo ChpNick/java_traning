@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class ContactHelper extends HelperBase {
     private final NavigationHelper navigationHelper;
+    private Contacts contactCache = null;
 
     public ContactHelper(WebDriver wd) {
         super(wd);
@@ -33,9 +34,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("title"), contactData.getTitle());
         type(By.name("company"), contactData.getCompany());
         type(By.name("address"), contactData.getAddress());
-        type(By.name("home"), contactData.getHome());
-        type(By.name("mobile"), contactData.getMobile());
-        type(By.name("work"), contactData.getWork());
+        type(By.name("home"), contactData.getHomePhone());
+        type(By.name("mobile"), contactData.getMobilePhone());
+        type(By.name("work"), contactData.getWorkPhone());
         type(By.name("fax"), contactData.getFax());
         type(By.name("email"), contactData.getEmail());
         type(By.name("email2"), contactData.getEmail2());
@@ -67,13 +68,14 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector("input[id ='" + id + "']")).click();
     }
 
+    public void initContactModificationById(int id) {
+        wd.findElement(By.cssSelector(String.format("a[href = 'edit.php?id=%s']", id))).click();
+//        wd.findElement(By.cssSelector("a[href = 'edit.php?id=" + id + "']")).click();
+    }
+
     public void deleteSelectedContact() {
         click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
         acceptAlert();
-    }
-
-    public void selectContactModificationById(int id) {
-        wd.findElement(By.cssSelector("a[href = 'edit.php?id=" + id + "']")).click();
     }
 
     public void deleteContactFromEdit() {
@@ -102,7 +104,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void modify(ContactData contact) {
-        selectContactModificationById(contact.getId());
+        initContactModificationById(contact.getId());
         fillContactForm(contact, false);
         submitContactModification();
         contactCache = null;
@@ -117,7 +119,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void deleteFromEdit(ContactData contact) {
-        selectContactModificationById(contact.getId());
+        initContactModificationById(contact.getId());
         deleteContactFromEdit();
         contactCache = null;
         returnToHomePage();
@@ -130,8 +132,6 @@ public class ContactHelper extends HelperBase {
     public NavigationHelper getNavigationHelper() {
         return navigationHelper;
     }
-
-    private Contacts contactCache = null;
 
     public Contacts all() {
         if (contactCache != null) {
@@ -147,9 +147,23 @@ public class ContactHelper extends HelperBase {
             int id = Integer.parseInt(elementDatas.get(0).findElement(By.tagName("input")).getAttribute("id"));
             String firstname = elementDatas.get(2).getText();
             String lastname = elementDatas.get(1).getText();
+            String[] phones = elementDatas.get(5).getText().split("\n");
 
-            contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
+            contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+            .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
         }
         return new Contacts(contactCache);
+    }
+
+    public ContactData infoFromEditForm(ContactData contact) {
+        initContactModificationById(contact.getId());
+        String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+        String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+        String home = wd.findElement(By.name("home")).getAttribute("value");
+        String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+        String work = wd.findElement(By.name("work")).getAttribute("value");
+        wd.navigate().back();
+        return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withHomePhone(home)
+                .withMobilePhone(mobile).withWorkPhone(work);
     }
 }
