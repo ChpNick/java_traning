@@ -28,6 +28,8 @@ public class ContactData {
     private  String phone2;
     private  String notes;
 
+    private String allPhones;
+
     public String getFirstname() {
         return firstname;
     }
@@ -131,6 +133,10 @@ public class ContactData {
 
     public int getId() {
         return id;
+    }
+
+    public String getAllPhones() {
+        return allPhones;
     }
 
 //    Сеттеры
@@ -262,6 +268,11 @@ public class ContactData {
 
     public ContactData withNotes(String notes) {
         this.notes = notes;
+        return this;
+    }
+
+    public ContactData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
         return this;
     }
 
