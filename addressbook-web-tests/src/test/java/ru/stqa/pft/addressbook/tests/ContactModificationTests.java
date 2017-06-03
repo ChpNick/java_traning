@@ -42,10 +42,10 @@ public class ContactModificationTests extends TestBase {
 
         app.contact().modify(contact);
 
-        Contacts after = app.contact().all();
-        assertEquals(after.size(), before.size());
+        assertThat(app.contact().count(), equalTo(before.size()));
 
 //        Проверяем через множества
+        Contacts after = app.contact().all();
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
 }
