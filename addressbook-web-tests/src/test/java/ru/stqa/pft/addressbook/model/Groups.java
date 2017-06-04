@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.model;
 
 import com.google.common.collect.ForwardingSet;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.HashSet;
 import java.util.Set;
