@@ -63,9 +63,8 @@ public class ContactInfoTests extends TestBase {
         app.goTo().HomePage();
         Contacts before = app.contact().all();
         ContactData newContact = new ContactData().withFirstname("CrazyChp").withLastname("testov")
-                .withAddress("  Ivanovo   city \n big  ").withHomePhone("11111").withMobilePhone("22222")
-                .withWorkPhone("33333").withEmail("chpnick@mail.ru")
-                .withEmail3("chpnick1@gmail.ru").withGroup("test1");
+                .withAddress("  Ivanovo   city \n big  ").withHomePhone("8 (920) 1111").withWorkPhone("33 33-33")
+                .withEmail("chpnick@mail.ru").withEmail3("chpnick1@gmail.ru").withGroup("test1");
 
         app.contact().create(newContact);
 
@@ -82,10 +81,25 @@ public class ContactInfoTests extends TestBase {
     }
 
     public String mergeInfoFromEditForDetails(ContactData contact) {
-        String contactInfo = String.format("%s %s %s H: %s M: %s W: %s %s %s %s", contact.getFirstname(),
-                contact.getLastname(), contact.getAddress(), contact.getHomePhone(), contact.getMobilePhone(),
-                contact.getWorkPhone(), contact.getEmail(), contact.getEmail2(), contact.getEmail3());
+        String email = mergeEmails(contact);
 
+        String contactInfo = String.format("%s %s %s ", contact.getFirstname(),
+                contact.getLastname(), contact.getAddress());
+
+        if (! contact.getHomePhone().equals("")) {
+            contactInfo += "H: " + contact.getHomePhone() + " ";
+        }
+
+        if (! contact.getMobilePhone().equals("")) {
+            contactInfo += "M: " + contact.getMobilePhone() + " ";
+        }
+
+        if (! contact.getWorkPhone().equals("")) {
+            contactInfo += "W: " +contact.getWorkPhone() + " ";
+        }
+
+        contactInfo += email;
+//        System.out.println(contactInfo.replaceAll("\n", " ").replaceAll("[\\s]{2,}", " ").trim());
         return contactInfo.replaceAll("\n", " ").replaceAll("[\\s]{2,}", " ").trim();
     }
 
