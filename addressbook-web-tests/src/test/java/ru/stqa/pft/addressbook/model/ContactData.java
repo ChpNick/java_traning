@@ -64,7 +64,8 @@ public class ContactData {
     private String allPhones;
     private String allEmails;
 
-    private File photo;
+    @Expose
+    private String photoRelativePath;
 
     public String getFirstname() {
         return firstname;
@@ -178,8 +179,8 @@ public class ContactData {
         return allEmails;
     }
 
-    public File getPhoto() {
-        return photo;
+    public String getPhotoRelativePath() {
+        return photoRelativePath;
     }
 
 //    Сеттеры
@@ -324,8 +325,8 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withPhoto(File photo) {
-        this.photo = photo;
+    public ContactData withPhotoRelativePath(String photoRelativePath) {
+        this.photoRelativePath = photoRelativePath;
         return this;
     }
 

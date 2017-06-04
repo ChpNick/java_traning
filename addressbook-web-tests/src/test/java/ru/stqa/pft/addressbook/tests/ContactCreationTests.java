@@ -50,8 +50,8 @@ public class ContactCreationTests extends TestBase {
     @Test(dataProvider = "validContactsFromJson")
     public void testContactCreation(ContactData contact) {
 
-        File photo = new File("src/test/resources/stru.png");
-        contact.withPhoto(photo);
+//        File photo = new File("src/test/resources/stru.png");
+//        contact.withPhotoRelativePath(photo);
 
         app.goTo().HomePage();
 

@@ -8,7 +8,8 @@
     "workPhone": "Wphone 0",
     "email": "email 0",
     "email2": "email2 0",
-    "email3": "email3 0"
+    "email3": "email3 0",
+    "photoRelativePath": "src/test/resources/stru.png"
   },
   {
     "firstname": "test 1",
@@ -19,7 +20,8 @@
     "workPhone": "Wphone 1",
     "email": "email 1",
     "email2": "email2 1",
-    "email3": "email3 1"
+    "email3": "email3 1",
+    "photoRelativePath": "src/test/resources/stru.png"
   },
   {
     "firstname": "test 2",
@@ -30,6 +32,7 @@
     "workPhone": "Wphone 2",
     "email": "email 2",
     "email2": "email2 2",
-    "email3": "email3 2"
+    "email3": "email3 2",
+    "photoRelativePath": "src/test/resources/stru.png"
   }
 ]

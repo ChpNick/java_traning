@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.NeedsLocalLogs;
 
 import java.io.File;
 
@@ -32,8 +33,9 @@ public class HelperBase {
         }
     }
 
-    protected void attach(By locator, File file) {
-        if (file != null) {
+    protected void attach(By locator, String  relativeFilePath) {
+        if (relativeFilePath != null) {
+            File file = new File(relativeFilePath);
             wd.findElement(locator).sendKeys(file.getAbsolutePath());
         }
     }
