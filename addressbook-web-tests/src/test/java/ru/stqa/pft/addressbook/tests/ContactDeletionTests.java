@@ -15,41 +15,38 @@ import static org.testng.Assert.assertEquals;
 public class ContactDeletionTests extends TestBase {
     @BeforeMethod
     public void ensurePreconditions() {
-        app.goTo().HomePage();
-
-        if (app.contact().all().size() == 0) {
-            app.contact().create(new ContactData().withFirstname("test1").withMiddlename("testovich").withLastname("testov")
-                    .withNickname("Chp").withTitle("i like coding").withCompany("social quantum").withAddress("Ivanovo")
-                    .withHomePhone("888888").withMobilePhone("89234567890").withWorkPhone("12345678900").withFax("-").withEmail("chpnick@mail.ru")
-                    .withEmail2("chpnick1@gmail.ru").withEmail3("-").withHomepage("-").withBday(1).withBmons(2)
-                    .withByear("1983").withAday(1).withAmons(2).withAyear("1990").withGroup("test1").withAddress2("-")
-                    .withPhone2("-").withNotes("_"));
+        if (app.db().contacts().size() == 0 ) {
+            app.goTo().HomePage();
+            app.contact().create(new ContactData().withFirstname("test1").withLastname("testov")
+                    .withAddress("Ivanovo").withHomePhone("888888").withMobilePhone("89234567890")
+                    .withWorkPhone("12345678900").withEmail("chpnick@mail.ru")
+                    .withEmail2("chpnick1@gmail.ru").withEmail3("-"));
         }
     }
 
     @Test
     public void testContactDeletionFromHome() {
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
         ContactData deletedContact = before.iterator().next();
 
         app.contact().delete(deletedContact);
 
         assertThat(app.contact().count(), equalTo(before.size() - 1));
 
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.without(deletedContact)));
     }
 
     @Test
     public void testContactDeletionFromEdit() {
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
         ContactData deletedContact = before.iterator().next();
 
         app.contact().deleteFromEdit(deletedContact);
 
         assertThat(app.contact().count(), equalTo(before.size() - 1));
 
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.without(deletedContact)));
     }
 }

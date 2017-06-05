@@ -64,7 +64,7 @@ public class ContactInfoTests extends TestBase {
         Contacts before = app.contact().all();
         ContactData newContact = new ContactData().withFirstname("CrazyChp").withLastname("testov")
                 .withAddress("  Ivanovo   city \n big  ").withHomePhone("8 (920) 1111").withWorkPhone("33 33-33")
-                .withEmail("chpnick@mail.ru").withEmail3("chpnick1@gmail.ru").withGroup("test1");
+                .withEmail("chpnick@mail.ru").withEmail3("chpnick1@gmail.ru");
 
         app.contact().create(newContact);
 

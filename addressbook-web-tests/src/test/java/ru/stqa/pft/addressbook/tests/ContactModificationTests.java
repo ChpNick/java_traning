@@ -16,36 +16,31 @@ public class ContactModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
-        app.goTo().HomePage();
-
-        if (app.contact().all().size() == 0) {
-            app.contact().create(new ContactData().withFirstname("test1").withMiddlename("testovich").withLastname("testov")
-                    .withNickname("Chp").withTitle("i like coding").withCompany("social quantum").withAddress("Ivanovo")
-                    .withHomePhone("888888").withMobilePhone("89234567890").withWorkPhone("12345678900").withFax("-").withEmail("chpnick@mail.ru")
-                    .withEmail2("chpnick1@gmail.ru").withEmail3("-").withHomepage("-").withBday(1).withBmons(2)
-                    .withByear("1983").withAday(1).withAmons(2).withAyear("1990").withGroup("test1").withAddress2("-")
-                    .withPhone2("-").withNotes("_"));
+        if (app.db().contacts().size() == 0 ) {
+            app.goTo().HomePage();
+            app.contact().create(new ContactData().withFirstname("test1").withLastname("testov")
+                    .withAddress("Ivanovo").withHomePhone("888888").withMobilePhone("89234567890")
+                    .withWorkPhone("12345678900").withEmail("chpnick@mail.ru")
+                    .withEmail2("chpnick1@gmail.ru").withEmail3("-"));
         }
     }
 
     @Test
     public void testContactModification() {
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
         ContactData modifiedContact = before.iterator().next();
 
-        ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("test_edit").withMiddlename("testovich_edit").withLastname("testov_edit")
-                .withNickname("Chp_edit").withTitle("i like coding").withCompany("social quantum").withAddress("Ivanovo")
-                .withHomePhone("888888").withMobilePhone("89234567890").withWorkPhone("12345678900").withFax("-").withEmail("chpnick@mail.ru")
-                .withEmail2("chpnick1@gmail.ru").withEmail3("-").withHomepage("-").withBday(10).withBmons(10)
-                .withByear("1983").withAday(10).withAmons(10).withAyear("1990").withGroup("test1").withAddress2("-")
-                .withPhone2("-").withNotes("_");
+        ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("test_edit")
+                .withLastname(modifiedContact.getLastname()).withAddress("Ivanovo").withHomePhone("888888")
+                .withMobilePhone("89234567890").withWorkPhone("12345678900").withEmail("chpnick@mail.ru")
+                .withEmail2("chpnick1@gmail.ru").withEmail3("-");
 
         app.contact().modify(contact);
 
         assertThat(app.contact().count(), equalTo(before.size()));
 
 //        Проверяем через множества
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
 }

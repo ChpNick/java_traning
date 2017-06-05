@@ -58,7 +58,7 @@ public class ContactCreationTests extends TestBase {
 
         app.goTo().HomePage();
 
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
 
         app.goTo().AddNewContactPage();
 
@@ -67,7 +67,7 @@ public class ContactCreationTests extends TestBase {
         assertThat(app.contact().count(), equalTo(before.size() + 1));
 
 //        Проверяем через множества
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(
                 before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
@@ -86,7 +86,7 @@ public class ContactCreationTests extends TestBase {
     public void testBadContactCreation() {
         app.goTo().HomePage();
 
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
 
         app.goTo().AddNewContactPage();
 
@@ -94,7 +94,7 @@ public class ContactCreationTests extends TestBase {
                 .withNickname("Chp").withTitle("i like coding").withCompany("social quantum").withAddress("Ivanovo")
                 .withHomePhone("888888").withMobilePhone("89234567890").withWorkPhone("12345678900").withFax("-").withEmail("chpnick@mail.ru")
                 .withEmail2("chpnick1@gmail.ru").withEmail3("-").withHomepage("-").withBday(1).withBmons(2)
-                .withByear("1983").withAday(1).withAmons(2).withAyear("1990").withGroup("test1").withAddress2("-")
+                .withByear("1983").withAday(1).withAmons(2).withAyear("1990").withAddress2("-")
                 .withPhone2("-").withNotes("_");
 
         app.contact().create(contact);
@@ -102,7 +102,7 @@ public class ContactCreationTests extends TestBase {
         assertThat(app.contact().count(), equalTo(before.size()));
 
 //        Проверяем через множества
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before));
     }
 
