@@ -7,6 +7,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("Contact")
 @Entity
@@ -19,92 +21,99 @@ public class ContactData {
 
     @Expose
     @Column(name = "firstname")
-    private  String firstname;
+    private String firstname;
 
     @Transient
-    private  String middlename;
+    private String middlename;
 
     @Expose
     @Column(name = "lastname")
-    private  String lastname;
+    private String lastname;
 
     @Transient
-    private  String nickname;
+    private String nickname;
     @Transient
-    private  String title;
+    private String title;
     @Transient
-    private  String company;
+    private String company;
 
     @Expose
     @Column(name = "address")
     @Type(type = "text")
-    private  String address;
+    private String address;
 
     @Expose
     @Column(name = "home")
     @Type(type = "text")
-    private  String homePhone;
+    private String homePhone;
 
     @Expose
     @Column(name = "mobile")
     @Type(type = "text")
-    private  String mobilePhone;
+    private String mobilePhone;
 
     @Expose
     @Column(name = "work")
     @Type(type = "text")
-    private  String workPhone;
+    private String workPhone;
 
     @Transient
-    private  String fax;
+    private String fax;
 
     @Expose
     @Column(name = "email")
     @Type(type = "text")
-    private  String email;
+    private String email;
 
     @Expose
     @Column(name = "email2")
     @Type(type = "text")
-    private  String email2;
+    private String email2;
 
     @Expose
     @Column(name = "email3")
     @Type(type = "text")
-    private  String email3;
+    private String email3;
 
     @Transient
-    private  String homepage;
-
-    @XStreamOmitField
-    @Transient
-    private  int bday = 0;
+    private String homepage;
 
     @XStreamOmitField
     @Transient
-    private  int bmons = 0;
-
-    @Transient
-    private  String byear;
+    private int bday = 0;
 
     @XStreamOmitField
     @Transient
-    private  int aday = 0;
+    private int bmons = 0;
+
+    @Transient
+    private String byear;
 
     @XStreamOmitField
     @Transient
-    private  int amons = 0;
+    private int aday = 0;
+
+    @XStreamOmitField
+    @Transient
+    private int amons = 0;
 
     @Transient
-    private  String ayear;
+    private String ayear;
+
+//    @Transient
+//    private  String group;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
+
     @Transient
-    private  String group;
+    private String address2;
     @Transient
-    private  String address2;
+    private String phone2;
     @Transient
-    private  String phone2;
-    @Transient
-    private  String notes;
+    private String notes;
     @Transient
     private String allPhones;
     @Transient
@@ -211,8 +220,12 @@ public class ContactData {
         return notes;
     }
 
-    public String getGroup() {
-        return group;
+//    public String getGroup() {
+//        return group;
+//    }
+
+    public Groups getGroups() {
+        return new Groups(groups);
     }
 
     public int getId() {
@@ -343,8 +356,13 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
+//    public ContactData withGroup(String group) {
+//        this.group = group;
+//        return this;
+//    }
+
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
         return this;
     }
 
