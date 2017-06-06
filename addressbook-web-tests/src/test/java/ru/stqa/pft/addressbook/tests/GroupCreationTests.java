@@ -65,6 +65,8 @@ public class GroupCreationTests extends TestBase {
 //        Проверяем через множества
         assertThat(after, equalTo(
                 before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+
+        verifyGroupListInUi();
     }
 
     @Test
@@ -81,6 +83,7 @@ public class GroupCreationTests extends TestBase {
         Groups after = app.db().groups();
         assertThat(after, equalTo(before));
 
+        verifyGroupListInUi();
     }
 
 }
