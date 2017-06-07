@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -81,8 +82,45 @@ public class ContactHelper extends HelperBase {
         type(By.name("notes"), contactData.getNotes());
     }
 
-    private void selectContactById(int id) {
+    public void selectContactById(int id) {
         wd.findElement(By.cssSelector("input[id ='" + id + "']")).click();
+    }
+
+    //    Выбирает группу в которую добавлять по Id
+    public void selectGroupById(int id) {
+        select(By.xpath(".//*[@id='content']/form[2]/div[4]/select/option[@value='" + id + "']"));
+    }
+
+    public void chooseFilterGroupById(int id) {
+        select(By.xpath(".//*[@id='right']/select/option[@value='" + id + "']"));
+    }
+
+    public void chooseFilterAllGroup() {
+        select(By.xpath(".//*[@id='right']/select/option[@value='']"));
+    }
+
+    public void removeFromGroup() {
+        click(By.name("remove"));
+    }
+
+    public void addInGroupSelectedContact() {
+        click(By.name("add"));
+    }
+
+    public void AddContactInGroup(ContactData contact, GroupData group) {
+        navigationHelper.HomePage();
+        selectContactById(contact.getId());
+        selectGroupById(group.getId());
+        addInGroupSelectedContact();
+    }
+
+    public void deleteContactInGroup(ContactData contact, GroupData group) {
+        navigationHelper.HomePage();
+        chooseFilterGroupById(group.getId());
+        selectContactById(contact.getId());
+        removeFromGroup();
+        navigationHelper.HomePage();
+        chooseFilterAllGroup();
     }
 
     public void initContactModificationById(int id) {

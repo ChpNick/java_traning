@@ -366,6 +366,11 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withoutGroup(GroupData group) {
+        groups.remove(group);
+        return this;
+    }
+
     public ContactData withAddress2(String address2) {
         this.address2 = address2;
         return this;

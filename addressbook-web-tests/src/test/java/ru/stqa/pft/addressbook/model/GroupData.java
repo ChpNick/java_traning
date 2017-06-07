@@ -20,17 +20,17 @@ public class GroupData {
 
     @Expose
     @Column(name = "group_name")
-    private String name;
+    private String name = "";
 
     @Expose
     @Column(name = "group_header")
     @Type(type = "text")
-    private String header;
+    private String header = "";
 
     @Expose
     @Column(name = "group_footer")
     @Type(type = "text")
-    private String footer;
+    private String footer = "";
 
     @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
     private Set<ContactData> contacts = new HashSet<ContactData>();
@@ -53,6 +53,15 @@ public class GroupData {
 
     public int getId() {
         return id;
+    }
+
+    public GroupData inContact(ContactData contact) {
+        contacts.add(contact);
+        return this;
+    }
+    public GroupData withoutContact(ContactData contact) {
+        contacts.remove(contact);
+        return this;
     }
 
     public GroupData withId(int id) {
